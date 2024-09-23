@@ -17,7 +17,7 @@ app.use(morgan("dev"))
 
 // Setting Cors 
 app.use(cors({
-  origin: "*",
+  origin: process.env.CLIENT_URL || "http://localhost:5000",
   credentials: true,
 }));
 
