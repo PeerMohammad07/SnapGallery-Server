@@ -10,7 +10,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const path_1 = __importDefault(require("path"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const db_1 = __importDefault(require("./infrastructure/config/db"));
-const userRouter_1 = __importDefault(require("./infrastructure/routes/userRouter"));
+const router_1 = __importDefault(require("./infrastructure/routes/router"));
 const app = (0, express_1.default)();
 // Config the Dotenv
 dotenv_1.default.config();
@@ -18,7 +18,7 @@ dotenv_1.default.config();
 app.use((0, morgan_1.default)("dev"));
 // Setting Cors 
 app.use((0, cors_1.default)({
-    origin: "*",
+    origin: process.env.CLIENT_URL || "http://localhost:5000",
     credentials: true,
 }));
 app.use((0, cookie_parser_1.default)());
@@ -27,12 +27,12 @@ app.use(express_1.default.json());
 // For parsing application/x-www-form-urlencoded
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.static(path_1.default.join(__dirname, "../infrastructure/public")));
-app.use("/api", userRouter_1.default);
+app.use("/api", router_1.default);
 // Mongodb Connect
 (0, db_1.default)();
 // Server 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
-    console.log("Server is running : http://localhost:4000");
+    console.log(`Server is running : http://localhost:${PORT}`);
 });
 exports.default = app;
